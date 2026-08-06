@@ -7,7 +7,7 @@
             <form action="/listings" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" placeholder="Enter title" name="listing[title]" class="form-control" required>
+                    <input type="text" placeholder="Enter title" name="listing[title]" class="form-control" required id="title">
                     <div class="valid-feedback">Title looks good!</div>
                     <div class="invalid-feedback">
                         Please enter a valid title.
@@ -16,23 +16,42 @@
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <textarea type="text" placeholder="Enter description " name="listing[description]"
-                        class="form-control" required></textarea>
+                        class="form-control" required id="description"></textarea>
                     <div class="invalid-feedback">
                         Please Write a short description.
                     </div>
                 </div>
 
+                <div class="mb-3">
+                     <label for="category" class="form-label">Category</label>
+                    <select id="category" class="form-select form-select-sm" name="listing[category]" required >
+
+                        <option value="" disabled selected>Select Category</option>
+
+                        <% for (let category of categories ) { %>
+
+                            <option value="<%= category %>">
+                                <%= category %>
+                            </option>
+
+                            <% } %>
+
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a category
+                    </div>
+                </div>
 
                 <div class="mb-3">
                     <label for="image" class="form-label">Upload Listing Image</label>
-                    <input type="file"  name="listing[image]" class="form-control" required>
+                    <input type="file" name="listing[image]" class="form-control" required id="image">
                 </div>
 
                 <div class="row">
 
                     <div class="mb-3 col-md-4">
                         <label for="Price" class="form-label">Price</label>
-                        <input placeholder="Enter price " name="listing[price]" class="form-control" required >
+                        <input placeholder="Enter price " name="listing[price]" class="form-control" required id="price">
                         <div class="invalid-feedback">
                             Please enter a valid price.
                         </div>
@@ -41,7 +60,7 @@
                     <div class="mb-3 col-md-8">
                         <label for="country" class="form-label">Country</label>
                         <input type="text" placeholder="Enter country" name="listing[country]" class="form-control"
-                            required>
+                            required id="country">
                         <div class="invalid-feedback">
                             Please enter the country name.
                         </div>
@@ -51,7 +70,7 @@
                 <div class="mb-3">
                     <label for="location" class="form-label">Location</label>
                     <input type="text" placeholder="Enter location" name="listing[location]" class="form-control"
-                        required>
+                        required id="location">
                     <div class="invalid-feedback">
                         Please enter the location name.
                     </div>

@@ -4,12 +4,33 @@ const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index", { allListings });
+    const { category } = req.query;
+    let allListings;
+
+    if (category) {
+        allListings = await Listing.find({ category });
+    } else {
+        allListings = await Listing.find({});
+    }
+
+    res.render("listings/index", { allListings , selectedCategory: category });
 };
 
 module.exports.renderNewForm = (req, res) => {
-    res.render("listings/new.ejs");
+    const categories = [
+        "Trending",
+        "Rooms",
+        "Iconic-Cities",
+        "Castles",
+        "Amazing-Pools",
+        "Camping",
+        "Farms",
+        "Arctic",
+        "Domes",
+        "Hotel",
+        "Villa",
+    ];
+    res.render("listings/new.ejs", { categories });
 };
 
 module.exports.showListing = async (req, res) => {
@@ -43,6 +64,19 @@ module.exports.createListing = async (req, res, next) => {
 
 module.exports.renderEditForm = async (req, res) => {
     let { id } = req.params;
+    const categories = [
+        "Trending",
+        "Rooms",
+        "Iconic-Cities",
+        "Castles",
+        "Amazing-Pools",
+        "Camping",
+        "Farms",
+        "Arctic",
+        "Domes",
+         "Hotel",
+        "Villa", 
+    ];
     const listing = await Listing.findById(id);
     if (!listing) {
         req.flash("error", "Listing you requested for does not exist !");
@@ -51,7 +85,7 @@ module.exports.renderEditForm = async (req, res) => {
     let originalImageUrl = listing.image.url;
     originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
 
-    res.render("listings/edit.ejs", { listing, originalImageUrl });
+    res.render("listings/edit.ejs", { listing, originalImageUrl, categories });
 };
 
 module.exports.updateListing = async (req, res) => {
